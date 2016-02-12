@@ -1,0 +1,21 @@
+{
+  "name": "angular-minute-table",
+  "authors": [
+    "minutephp <dev@minutephp.com>"
+  ],
+  "description": "AngularJS simplest implementation of datatable",
+  "main": "src/js/angular-minute-table.js",
+  "keywords": [
+    "angularjs",
+    "notice"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.minutephp.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
