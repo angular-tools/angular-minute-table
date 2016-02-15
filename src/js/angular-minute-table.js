@@ -18,22 +18,27 @@
                         var tr = angular.element(this);
                         var trLink = tr.attr('ng-link');
 
-                        tr.find('td:not(:has(a))').each(function () {
-                            angular.element(this).wrapInner('<a href="" ng-href="' + trLink + '"></a>');
-                        });
+                        if (trLink) {
+                            var trTarget = tr.attr('ng-target');
+
+                            tr.find('td:not(:has(a))').each(function () {
+                                angular.element(this).wrapInner('<a href="" ng-href="' + trLink + '"' + (trTarget ? 'target="' + trTarget + '"' : '') + '></a>');
+                            });
+                        }
                     });
 
                     element.find('td').each(function () {
                         var ele = angular.element(this);
                         var field = ele.attr('ng-field');
                         var name = ele.attr('ng-title') || fix(field);
+                        var css = ele.attr('ng-class') || '';
                         var checkbox = ele.children().length == 1 ? ele.find('input[type="checkbox"]') : null;
                         var th;
 
                         if (checkbox.length > 0) { //toggleAll && isAllSelected must be implemented in the local $scope [http://goo.gl/SMKu9G]
                             th = ('<th><input type="checkbox" ng-show="!!toggleAll" ng-click="toggleAll()" ng-model="isAllSelected"></th>');
                         } else {
-                            th = ('<th ' + (field ? 'style="cursor: pointer"' : '' ) + ' ng-click="_table.sort(\'' + field + '\')">' + name +
+                            th = ('<th ' + (field ? 'style="cursor: pointer"' : '' ) + ' ' + (css ? 'class="' + css + '"' : '') + 'ng-click="_table.sort(\'' + field + '\')">' + name +
                             '<i class="fa fa-fw {{_table.orderBy == \'' + field + '\' && (_table.reversed[\'' + field + '\'] && \'fa-sort-desc\' || \'fa-sort-asc\') || \'\'}}"></i></th>');
                         }
 
@@ -46,7 +51,7 @@
                             var items = $scope[model];
                             var refresh, order = {};
 
-                            if (matches = /^(\w+)\s*(ASC|DESC)?/i.exec(items.getOrderBy())) {
+                            if (items && (matches = /^(\w+)\s*(ASC|DESC)?/i.exec(items.getOrderBy()))) {
                                 order = {field: matches[1], reversed: /desc/i.test(matches[2])};
                             }
 
